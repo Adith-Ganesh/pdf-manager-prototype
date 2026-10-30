@@ -3,7 +3,9 @@ import { useState } from 'react'
 import PDFCard from './components/PDFCard'
 import './App.css'
 
+
 function App() {
+
 
   // Stores the PDF list
   const [pdf_list, setPdfList] = useState([
@@ -15,6 +17,25 @@ function App() {
   // Stores input values
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+
+  function handleAddPDF(){
+  if (title.trim() == "" || description.trim() == ""){
+    alert("Please fill in both the title and description fields.")
+    return 
+  }
+
+  setPdfList([
+    ...pdf_list,
+    {
+      title: title,
+      description: description,
+    },
+  ])
+
+  setTitle("")
+  setDescription("")
+}
+
 
   return (
     <div>
@@ -40,16 +61,7 @@ function App() {
 
       {/* Add PDF button */}
       <button
-        onClick={() =>
-          setPdfList([
-            ...pdf_list,
-            {
-              title: title,
-              description: description,
-            },
-          ])
-        }
-      >
+        onClick={handleAddPDF}>
         ADD PDF
       </button>
 

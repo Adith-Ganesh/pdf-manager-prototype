@@ -1,0 +1,20 @@
+.pdf-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 15px 0;
+  max-width: 400px;
+}
+
+.pdf-card button {
+  padding: 8px 15px;
+  cursor: pointer;
+}
+
+.pdf-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  max-width: 1000px;
+  margin: 0 auto;
+}

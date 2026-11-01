@@ -1,22 +1,45 @@
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PDFCard from '../components/PDFCard'
 import '../App.css'
+import { supabase } from '../lib/supabase'
 
 
 function App() {
 
+async function testConnection() {
+  const { data, error } = await supabase
+    .from('pdfs')
+    .select('*')
+
+  console.log(data)
+  console.log(error)
+  }
 
   // Stores the PDF list
-  const [pdf_list, setPdfList] = useState([
-    { id: crypto.randomUUID(), title: 'Operating Systems Notes', description: 'Module 1' },
-    { id: crypto.randomUUID(), title: 'Data Structures Notes', description: 'Module 2' },
-    { id: crypto.randomUUID(), title: 'Algorithms Notes', description: 'Module 3' },
-  ])
+  const [pdf_list, setPdfList] = useState([])
 
   // Stores input values
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+
+  useEffect(() => {
+  async function fetchPDFs() {
+    const { data, error } = await supabase
+      .from('pdfs')
+      .select('*')
+      .eq('status', 'approved')
+
+    if (error) {
+      console.log(error)
+      return
+    }
+
+    setPdfList(data)
+  }
+
+  fetchPDFs()
+}, [])
 
   function handleAddPDF(){
   if (title.trim() == "" || description.trim() == ""){
@@ -48,6 +71,10 @@ function handleDeletePDF(id) {
 
       <h1>PDF Vault</h1>
       <p>Welcome to my PDF library.</p>
+
+      <button onClick={testConnection}>
+      Test Supabase
+      </button>
 
       {/* PDF title input */}
       <input

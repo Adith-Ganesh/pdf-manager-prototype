@@ -1,4 +1,4 @@
-import { useState } from  'react'
+import { useState, useEffect } from  'react'
 import { supabase } from '../lib/supabase'
 
 function Auth() {
@@ -30,6 +30,15 @@ function Auth() {
         }
     }
 
+    async function handleLogout() {
+        const {error} = await supabase.auth.signOut()
+        if (error) {
+            alert(error.message)
+        } else {
+            alert ("Logout successful!")
+        }
+    }
+
     return (
         <div>
             <h1>login / signup</h1>
@@ -50,6 +59,7 @@ function Auth() {
 
             <button onClick = {handleSignup}> sign up </button>
             <button onClick = {handleLogin}> login </button>
+            <button onClick = {handleLogout}> logout </button>
 
         </div>
     )
